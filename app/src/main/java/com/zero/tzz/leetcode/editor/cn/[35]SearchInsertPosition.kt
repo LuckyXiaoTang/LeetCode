@@ -36,13 +36,43 @@ class SearchInsertPosition {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         fun searchInsert(nums: IntArray, target: Int): Int {
-            return 0
+            if (nums.isEmpty()) return 0
+            if (nums[0] >= target) return 0
+            if (nums[nums.size - 1] < target) return nums.size
+            // 二分查找元素
+            // [1,3,5,6] 7
+            var min = 0
+            var max = nums.size
+            var mid = (min + max) / 2
+            var ans = 0
+            while (true) {
+                val midValue = nums[mid]
+                if (midValue == target) {
+                    ans = mid
+                    break
+                }
+                if (midValue > target) {
+                    max = mid
+                } else {
+                    min = mid
+                }
+                mid = (min + max) / 2
+                if (max - min == 1) {
+                    ans = min + 1
+                    break
+                }
+            }
+            return ans
         }
     }
-//leetcode submit region end(Prohibit modification and deletion)
+    //leetcode submit region end(Prohibit modification and deletion)
 
 }
 
 fun main() {
     val solution = SearchInsertPosition.Solution()
+    println(solution.searchInsert(intArrayOf(1, 3, 5, 6), 0))
+    println(solution.searchInsert(intArrayOf(1, 3, 5, 6), 7))
+    println(solution.searchInsert(intArrayOf(1, 3, 5, 6), 1))
+    println(solution.searchInsert(intArrayOf(1, 3, 5, 6), 3))
 }
